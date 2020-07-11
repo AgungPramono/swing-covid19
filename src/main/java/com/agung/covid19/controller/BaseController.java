@@ -77,7 +77,7 @@ public class BaseController {
             mainFrame.getLblConfirmed().setText(TextUtil.formatDecimal(countries.getConfirmed().getValue()));
             mainFrame.getLblDeath().setText(TextUtil.formatDecimal(countries.getDeaths().getValue()));
             mainFrame.getLblRecovered().setText(TextUtil.formatDecimal(countries.getRecovered().getValue()));
-            mainFrame.getLblLastUpdate().setText("Pembaruan Terakhir : "+TextUtil.formatDate(countries.getLastUpdate()));
+//            mainFrame.getLblLastUpdate().setText("Pembaruan Terakhir : "+TextUtil.formatDate(countries.getLastUpdate()));
 
         }
         log.debug("By Countrie");
