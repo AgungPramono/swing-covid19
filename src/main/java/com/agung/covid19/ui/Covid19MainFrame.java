@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
@@ -20,7 +21,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class Covid19MainFrame extends javax.swing.JFrame {
 
-    private Covid19Controller baseController = new Covid19Controller(this);
+    @Autowired
+    private Covid19Controller baseController;
     private CaseBarChart caseBarChart = new CaseBarChart();
     private PieChart pieChart = new PieChart();
 
@@ -31,11 +33,14 @@ public class Covid19MainFrame extends javax.swing.JFrame {
         setResizable(true);
         setTitle(".:: COVID19-Dashboard ::.");
         initTextComponent("loading...");
+        setLocationRelativeTo(null);
+        setExtendedState(MAXIMIZED_BOTH);
+    }
+
+    public void initData() {
         baseController.getAllSummary(country);
         initBarChart();
         initPieChart();
-        setLocationRelativeTo(null);
-        setExtendedState(MAXIMIZED_BOTH);
     }
 
     private void initTextComponent(String label) {
@@ -73,8 +78,8 @@ public class Covid19MainFrame extends javax.swing.JFrame {
     public JLabel getLblConfirmed() {
         return lblConfirmed;
     }
-    
-    public JLabel getLblNewConfirmed(){
+
+    public JLabel getLblNewConfirmed() {
         return newConfirmed;
     }
 
@@ -85,8 +90,8 @@ public class Covid19MainFrame extends javax.swing.JFrame {
     public JLabel getLblDeath() {
         return lblDeath;
     }
-    
-    public JLabel getLblNewDeath(){
+
+    public JLabel getLblNewDeath() {
         return lblNewDeath;
     }
 
@@ -481,41 +486,6 @@ public class Covid19MainFrame extends javax.swing.JFrame {
     private void jPanel12MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel12MouseClicked
         initBarChart();
     }//GEN-LAST:event_jPanel12MouseClicked
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Windows".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Covid19MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Covid19MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Covid19MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Covid19MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Covid19MainFrame().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel10;

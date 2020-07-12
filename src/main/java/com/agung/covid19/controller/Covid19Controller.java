@@ -21,6 +21,7 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -33,14 +34,11 @@ import retrofit2.Response;
 @Slf4j
 public class Covid19Controller {
 
+    @Autowired
     private Covid19MainFrame mainFrame;
 
     @Getter @Setter
     private Country country;
-    public Covid19Controller(Covid19MainFrame mainFrame) {
-        this.mainFrame = mainFrame;
-    }
-    
 
     public void getAllSummary(String country) {
         SummaryService summaryService = Covid19ApiProvider2.getInstance().createService(SummaryService.class);
