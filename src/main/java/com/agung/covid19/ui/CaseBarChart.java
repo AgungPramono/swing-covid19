@@ -24,11 +24,14 @@ import org.jfree.chart.renderer.category.StandardBarPainter;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.ui.TextAnchor;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author agung
  */
+
+@Component
 public class CaseBarChart {
 
     @Getter

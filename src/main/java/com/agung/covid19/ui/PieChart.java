@@ -23,11 +23,14 @@ import org.jfree.chart.plot.PiePlot;
 import org.jfree.chart.plot.PiePlot3D;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author agung
  */
+
+@Component
 public class PieChart {
     
     @Getter

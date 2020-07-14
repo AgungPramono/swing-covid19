@@ -5,10 +5,13 @@
  */
 package com.agung.covid19;
 
-import com.agung.covid19.controller.Covid19Controller;
+import com.agung.covid19.api.service.BaseService;
+import com.agung.covid19.controller.MainController;
 import com.agung.covid19.ui.CaseBarChart;
 import com.agung.covid19.ui.Covid19MainFrame;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.ComponentScans;
 import org.springframework.context.annotation.Configuration;
 
 /**
@@ -17,6 +20,7 @@ import org.springframework.context.annotation.Configuration;
  */
 
 @Configuration
+@ComponentScan(basePackages = {"com.agung.covid19"})
 public class AppConfig {
     
     @Bean
@@ -25,7 +29,13 @@ public class AppConfig {
     }
     
     @Bean
-    public Covid19Controller controller(){
-        return new Covid19Controller();
-    }    
+    public MainController controller(){
+        return new MainController();
+    }
+    
+    @Bean
+    public BaseService baseService(){
+        return new BaseService();
+    }
+    
 }
