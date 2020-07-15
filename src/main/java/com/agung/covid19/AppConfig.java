@@ -7,11 +7,9 @@ package com.agung.covid19;
 
 import com.agung.covid19.api.service.BaseService;
 import com.agung.covid19.controller.MainController;
-import com.agung.covid19.ui.CaseBarChart;
 import com.agung.covid19.ui.Covid19MainFrame;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.ComponentScans;
 import org.springframework.context.annotation.Configuration;
 
 /**

@@ -6,36 +6,45 @@
 package com.agung.covid19;
 
 import com.agung.covid19.ui.Covid19MainFrame;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.support.AbstractApplicationContext;
 
 /**
  *
  * @author agung
  */
 public class Main {
-    
+
     public static ApplicationContext context;
     private static Covid19MainFrame mainFrame;
-    
-    private static void initContext(){
+
+    private static void initContext() {
         context = new AnnotationConfigApplicationContext(AppConfig.class);
         mainFrame = context.getBean(Covid19MainFrame.class);
     }
-    
-    private static void initMainView(){
-         mainFrame.initData();
-         mainFrame.setVisible(true);
+
+    private static void initMainView() throws IOException {
+
+//         mainFrame.runWorker();
+        mainFrame.setVisible(true);
     }
-    
-    public static void main(String[] args) {
+
+    public static void main(String[] args) throws IOException {
         initContext();
-         java.awt.EventQueue.invokeLater(new Runnable() {
+        mainFrame.initCountryCombo();
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
-              initMainView();
+                try {
+                    initMainView();
+                } catch (IOException ex) {
+                    Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
-    
+
 }

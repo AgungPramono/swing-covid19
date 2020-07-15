@@ -6,23 +6,14 @@
 package com.agung.covid19.ui;
 
 import com.agung.covid19.controller.MainController;
-import java.awt.Component;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.Cursor;
 import java.awt.event.ItemEvent;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
-import javax.swing.plaf.basic.BasicComboBoxRenderer;
-import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -43,7 +34,7 @@ public class Covid19MainFrame extends javax.swing.JFrame {
 
     private Map<String, String> countryMap = new HashMap<>();
 
-    private static final String COUNTRY_CODE = "US";
+    private static final String COUNTRY_CODE = "ID";
 
     private Worker worker;
 
@@ -56,11 +47,12 @@ public class Covid19MainFrame extends javax.swing.JFrame {
         setExtendedState(MAXIMIZED_BOTH);
     }
 
-    private void initCountryCombo() throws IOException {
+    public void initCountryCombo() throws IOException {
         countryMap = baseController.getCountries();
         for (String countryName : countryMap.keySet()) {
             cmbCountry.addItem(countryName);
         }
+        cmbCountry.setSelectedItem("Indonesia");
     }
 
     public void initData() {
@@ -77,8 +69,11 @@ public class Covid19MainFrame extends javax.swing.JFrame {
 
     private void initTextComponent(String label) {
         lblConfirmed.setText(label);
+        lblNewConfirmed.setText(label);
         lblDeath.setText(label);
+        lblNewDeath.setText(label);
         lblRecovered.setText(label);
+        lblNewRecovered.setText(label);
         lblGlobalConfirmed.setText(label);
         lblGlobalDeath.setText(label);
         lblGlobalRecovered.setText(label);
@@ -116,7 +111,7 @@ public class Covid19MainFrame extends javax.swing.JFrame {
     }
 
     public JLabel getLblNewConfirmed() {
-        return newConfirmed;
+        return lblNewConfirmed;
     }
 
     public JLabel getLblNewRecovered() {
@@ -154,27 +149,39 @@ public class Covid19MainFrame extends javax.swing.JFrame {
     public JLabel getLblLastUpdate() {
         return lblLastUpdate;
     }
+    
+    public void setTypeCursor(Integer typeCursor){
+        this.setCursor(Cursor.getPredefinedCursor(typeCursor));
+    }
 
-    private class Worker extends SwingWorker<Void, Void> {
+    private class Worker extends SwingWorker<String, Void> {
 
         @Override
-        protected Void doInBackground() throws Exception {
+        protected String doInBackground() throws Exception {
+            Thread.sleep(1000);
+            initTextComponent("Loading...");
+            setTypeCursor(Cursor.WAIT_CURSOR);
             baseController.loadCaseByCountry(countryMap.get(cmbCountry.getSelectedItem().toString()));
+            jPanel12.setBorder(javax.swing.BorderFactory.createTitledBorder(null,
+                    cmbCountry.getSelectedItem().toString(), 
+                    javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 16), new java.awt.Color(255, 255, 255))); // NOI18N
+        
             initBarChart();
             initPieChart();
-            return null;
+            return "done";
         }
 
         @Override
         protected void done() {
-            super.done(); //To change body of generated methods, choose Tools | Templates.
+            log.debug("data update");
+            JOptionPane.showMessageDialog(rootPane, "Data Berhasil di update");
+            setTypeCursor(Cursor.DEFAULT_CURSOR);
+            return;
         }
     }
 
-    private void runWorker() {
-        if (worker == null) {
-            worker = new Worker();
-        }
+    public void runWorker() {
+        worker = new Worker();
         worker.execute();
     }
 
@@ -194,7 +201,7 @@ public class Covid19MainFrame extends javax.swing.JFrame {
         jPanel7 = new javax.swing.JPanel();
         lblConfirmed = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        newConfirmed = new javax.swing.JLabel();
+        lblNewConfirmed = new javax.swing.JLabel();
         jPanel13 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         lblDeath = new javax.swing.JLabel();
@@ -247,10 +254,10 @@ public class Covid19MainFrame extends javax.swing.JFrame {
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setText("Terkonfirmasi");
 
-        newConfirmed.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
-        newConfirmed.setForeground(new java.awt.Color(255, 153, 0));
-        newConfirmed.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        newConfirmed.setText("jLabel1");
+        lblNewConfirmed.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
+        lblNewConfirmed.setForeground(new java.awt.Color(255, 153, 0));
+        lblNewConfirmed.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblNewConfirmed.setText("jLabel1");
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -260,7 +267,7 @@ public class Covid19MainFrame extends javax.swing.JFrame {
             .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(newConfirmed, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblNewConfirmed, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel7Layout.setVerticalGroup(
@@ -268,10 +275,10 @@ public class Covid19MainFrame extends javax.swing.JFrame {
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addComponent(lblConfirmed, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(4, 4, 4)
-                .addComponent(newConfirmed)
+                .addComponent(lblNewConfirmed)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel4)
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel13.setBackground(new java.awt.Color(255, 255, 255));
@@ -341,7 +348,7 @@ public class Covid19MainFrame extends javax.swing.JFrame {
                 .addComponent(lblNewRecovered)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel7)
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         lblLastUpdate.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
@@ -408,7 +415,7 @@ public class Covid19MainFrame extends javax.swing.JFrame {
                 .addComponent(lblGlobalConfirmed, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel5)
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel15.setBackground(new java.awt.Color(255, 255, 255));
@@ -462,7 +469,7 @@ public class Covid19MainFrame extends javax.swing.JFrame {
                 .addComponent(lblGlobalRecovered, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel10)
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
@@ -491,6 +498,7 @@ public class Covid19MainFrame extends javax.swing.JFrame {
 
         jPanel14Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jPanel10, jPanel15, jPanel8});
 
+        cmbCountry.setFont(new java.awt.Font("Tahoma", 0, 20)); // NOI18N
         cmbCountry.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 cmbCountryItemStateChanged(evt);
@@ -517,8 +525,8 @@ public class Covid19MainFrame extends javax.swing.JFrame {
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel11Layout.createSequentialGroup()
                 .addGap(16, 16, 16)
-                .addComponent(cmbCountry, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(cmbCountry, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel11Layout.createSequentialGroup()
                         .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -590,15 +598,15 @@ public class Covid19MainFrame extends javax.swing.JFrame {
 
     private void cmbCountryItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbCountryItemStateChanged
         if (evt.getStateChange() == ItemEvent.SELECTED) {
-            log.debug("code {}", countryMap.get(cmbCountry.getSelectedItem().toString()));
-            try {
-                baseController.loadCaseByCountry(countryMap.get(cmbCountry.getSelectedItem().toString()));
-            } catch (IOException ex) {
-                Logger.getLogger(Covid19MainFrame.class.getName()).log(Level.SEVERE, null, ex);
-            }
-                initBarChart();
-                initPieChart();
-//            runWorker();
+//            log.debug("code {}", countryMap.get(cmbCountry.getSelectedItem().toString()));
+            // try {
+            // baseController.loadCaseByCountry(countryMap.get(cmbCountry.getSelectedItem().toString()));
+            // } catch (IOException ex) {
+            //     Logger.getLogger(Covid19MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+            // }
+            // initBarChart();
+            // initPieChart();
+            runWorker();
 
         }
     }//GEN-LAST:event_cmbCountryItemStateChanged
@@ -627,10 +635,10 @@ public class Covid19MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel lblGlobalDeath;
     private javax.swing.JLabel lblGlobalRecovered;
     private javax.swing.JLabel lblLastUpdate;
+    private javax.swing.JLabel lblNewConfirmed;
     private javax.swing.JLabel lblNewDeath;
     private javax.swing.JLabel lblNewRecovered;
     private javax.swing.JLabel lblRecovered;
-    private javax.swing.JLabel newConfirmed;
     private javax.swing.JPanel pnlBarChart;
     private javax.swing.JPanel pnlPieChart;
     private javax.swing.JPanel rootContainer;

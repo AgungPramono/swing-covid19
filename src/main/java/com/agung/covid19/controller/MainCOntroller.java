@@ -69,7 +69,6 @@ public class MainController {
         Map<String,String> mapCountries = new HashMap<>();
         Countries[] countries = baseService.getAllCountries().body();
         for(Countries c:countries){
-            log.debug("kode Negara {}",c.getISO2());
             mapCountries.put(c.getCountry(), c.getISO2());
         }
         
