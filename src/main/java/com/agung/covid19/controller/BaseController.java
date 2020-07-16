@@ -10,7 +10,7 @@ import com.agung.covid19.api.Covid19ApiProvider;
 import com.agung.covid19.api.service.GlobalApiService;
 import com.agung.covid19.model.Country;
 import com.agung.covid19.model.Global;
-import com.agung.covid19.ui.Covid19MainFrame;
+import com.agung.covid19.view.MainFrame;
 import com.agung.covid19.util.TextUtil;
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
@@ -28,10 +28,10 @@ import retrofit2.Response;
 public class BaseController {
 
     public static final org.slf4j.Logger log = LoggerFactory.getLogger(BaseController.class);
-    private Covid19MainFrame mainFrame; 
+    private MainFrame mainFrame; 
     
     
-    public BaseController(Covid19MainFrame mainFrame) {
+    public BaseController(MainFrame mainFrame) {
         this.mainFrame = mainFrame;
     }
 

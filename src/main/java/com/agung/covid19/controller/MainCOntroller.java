@@ -9,7 +9,7 @@ import com.agung.covid19.api.service.BaseService;
 import com.agung.covid19.pojo.Countries;
 import com.agung.covid19.pojo.Country;
 import com.agung.covid19.pojo.Summary;
-import com.agung.covid19.ui.Covid19MainFrame;
+import com.agung.covid19.view.MainFrame;
 import com.agung.covid19.util.TextUtil;
 import java.io.IOException;
 import java.util.HashMap;
@@ -27,7 +27,7 @@ import java.util.Map;
 public class MainController {
 
     @Autowired
-    private Covid19MainFrame mainFrame;
+    private MainFrame mainFrame;
 
     @Autowired
     private BaseService baseService;

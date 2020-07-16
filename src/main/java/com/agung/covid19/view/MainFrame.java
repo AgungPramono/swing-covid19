@@ -3,14 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.agung.covid19.ui;
+package com.agung.covid19.view;
 
 import com.agung.covid19.controller.MainController;
 import java.awt.Cursor;
 import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
@@ -22,7 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author agung
  */
 @Slf4j
-public class Covid19MainFrame extends javax.swing.JFrame {
+public class MainFrame extends javax.swing.JFrame {
 
     @Autowired
     private MainController baseController;
@@ -38,7 +42,7 @@ public class Covid19MainFrame extends javax.swing.JFrame {
 
     private Worker worker;
 
-    public Covid19MainFrame() {
+    public MainFrame() {
         initComponents();
         setResizable(true);
         setTitle(".:: COVID19-Dashboard ::.");
@@ -46,13 +50,22 @@ public class Covid19MainFrame extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         setExtendedState(MAXIMIZED_BOTH);
     }
+    
+    public void cmbAction(){
+        cmbCountry.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                
+            }
+        });
+    }
 
     public void initCountryCombo() throws IOException {
         countryMap = baseController.getCountries();
         for (String countryName : countryMap.keySet()) {
             cmbCountry.addItem(countryName);
         }
-        cmbCountry.setSelectedItem("Indonesia");
+//        cmbCountry.setSelectedItem("Indonesia");
     }
 
     public void initData() {
@@ -153,30 +166,54 @@ public class Covid19MainFrame extends javax.swing.JFrame {
     public void setTypeCursor(Integer typeCursor){
         this.setCursor(Cursor.getPredefinedCursor(typeCursor));
     }
+    
+    private void removeAllChart(){
+        pnlBarChart.removeAll();
+        pnlBarChart.repaint();
+        pnlPieChart.removeAll();
+        pnlPieChart.repaint();
+    }
 
     private class Worker extends SwingWorker<String, Void> {
 
         @Override
-        protected String doInBackground() throws Exception {
-            Thread.sleep(1000);
-            initTextComponent("Loading...");
-            setTypeCursor(Cursor.WAIT_CURSOR);
-            baseController.loadCaseByCountry(countryMap.get(cmbCountry.getSelectedItem().toString()));
-            jPanel12.setBorder(javax.swing.BorderFactory.createTitledBorder(null,
-                    cmbCountry.getSelectedItem().toString(), 
-                    javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 16), new java.awt.Color(255, 255, 255))); // NOI18N
-        
-            initBarChart();
-            initPieChart();
-            return "done";
+        protected String doInBackground(){
+            try {
+                Thread.sleep(1000);
+                initTextComponent("Loading...");
+                setTypeCursor(Cursor.WAIT_CURSOR);
+                baseController.loadCaseByCountry(countryMap.get(cmbCountry.getSelectedItem().toString()));
+                jPanel12.setBorder(javax.swing.BorderFactory.createTitledBorder(null,
+                        cmbCountry.getSelectedItem().toString(),
+                        javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 16), new java.awt.Color(255, 255, 255))); // NOI18N
+                
+                initBarChart();
+                initPieChart();
+                return "done";
+            } catch (IOException ex) {
+                Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+                setTypeCursor(Cursor.DEFAULT_CURSOR);
+                removeAllChart();
+                JOptionPane.showMessageDialog(rootPane, "Gagal mengambil data","Gagal", JOptionPane.ERROR_MESSAGE);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            return null;
         }
 
         @Override
         protected void done() {
-            log.debug("data update");
-            JOptionPane.showMessageDialog(rootPane, "Data Berhasil di update");
-            setTypeCursor(Cursor.DEFAULT_CURSOR);
-            return;
+            try {
+                if(get()!=null){
+                    log.debug("data update");
+                    JOptionPane.showMessageDialog(rootPane, "Data Berhasil di update");
+                    setTypeCursor(Cursor.DEFAULT_CURSOR);
+                }
+            } catch (InterruptedException ex) {
+                Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ExecutionException ex) {
+                Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
@@ -278,7 +315,7 @@ public class Covid19MainFrame extends javax.swing.JFrame {
                 .addComponent(lblNewConfirmed)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel4)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         jPanel13.setBackground(new java.awt.Color(255, 255, 255));
@@ -348,7 +385,7 @@ public class Covid19MainFrame extends javax.swing.JFrame {
                 .addComponent(lblNewRecovered)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel7)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         lblLastUpdate.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
@@ -415,7 +452,7 @@ public class Covid19MainFrame extends javax.swing.JFrame {
                 .addComponent(lblGlobalConfirmed, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel5)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         jPanel15.setBackground(new java.awt.Color(255, 255, 255));
@@ -469,7 +506,7 @@ public class Covid19MainFrame extends javax.swing.JFrame {
                 .addComponent(lblGlobalRecovered, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel10)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
@@ -499,6 +536,7 @@ public class Covid19MainFrame extends javax.swing.JFrame {
         jPanel14Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jPanel10, jPanel15, jPanel8});
 
         cmbCountry.setFont(new java.awt.Font("Tahoma", 0, 20)); // NOI18N
+        cmbCountry.setSelectedItem("Indonesia");
         cmbCountry.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 cmbCountryItemStateChanged(evt);
@@ -598,16 +636,7 @@ public class Covid19MainFrame extends javax.swing.JFrame {
 
     private void cmbCountryItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbCountryItemStateChanged
         if (evt.getStateChange() == ItemEvent.SELECTED) {
-//            log.debug("code {}", countryMap.get(cmbCountry.getSelectedItem().toString()));
-            // try {
-            // baseController.loadCaseByCountry(countryMap.get(cmbCountry.getSelectedItem().toString()));
-            // } catch (IOException ex) {
-            //     Logger.getLogger(Covid19MainFrame.class.getName()).log(Level.SEVERE, null, ex);
-            // }
-            // initBarChart();
-            // initPieChart();
             runWorker();
-
         }
     }//GEN-LAST:event_cmbCountryItemStateChanged
 

@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.agung.covid19;
+package com.agung.covid19.config;
 
 import com.agung.covid19.api.service.BaseService;
 import com.agung.covid19.controller.MainController;
-import com.agung.covid19.ui.Covid19MainFrame;
+import com.agung.covid19.view.MainFrame;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -21,9 +21,10 @@ import org.springframework.context.annotation.Configuration;
 @ComponentScan(basePackages = {"com.agung.covid19"})
 public class AppConfig {
     
+    
     @Bean
-    public Covid19MainFrame mainFrame(){
-        return new Covid19MainFrame();
+    public MainFrame mainFrame(){
+        return new MainFrame();
     }
     
     @Bean

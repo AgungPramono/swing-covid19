@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.agung.covid19.ui;
+package com.agung.covid19.view;
 
 import com.agung.covid19.util.TextUtil;
 import java.awt.Color;

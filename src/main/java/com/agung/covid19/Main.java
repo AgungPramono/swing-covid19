@@ -5,7 +5,8 @@
  */
 package com.agung.covid19;
 
-import com.agung.covid19.ui.Covid19MainFrame;
+import com.agung.covid19.config.AppConfig;
+import com.agung.covid19.view.MainFrame;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,11 +20,11 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 public class Main {
 
     public static ApplicationContext context;
-    private static Covid19MainFrame mainFrame;
+    private static MainFrame mainFrame;
 
     private static void initContext() {
         context = new AnnotationConfigApplicationContext(AppConfig.class);
-        mainFrame = context.getBean(Covid19MainFrame.class);
+        mainFrame = context.getBean(MainFrame.class);
     }
 
     private static void initMainView() throws IOException {
