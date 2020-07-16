@@ -28,14 +28,12 @@ public class Main {
     }
 
     private static void initMainView() throws IOException {
-
-//         mainFrame.runWorker();
+        initContext();
         mainFrame.setVisible(true);
+        mainFrame.initCountryCombo();
     }
 
     public static void main(String[] args) throws IOException {
-        initContext();
-        mainFrame.initCountryCombo();
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {

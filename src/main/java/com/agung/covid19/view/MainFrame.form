@@ -614,9 +614,6 @@
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="pnlBarChart">
-          <Events>
-            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="pnlBarChartMouseClicked"/>
-          </Events>
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
         </Container>

@@ -33,6 +33,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     @Autowired
     private CaseBarChart caseBarChart;
+
     @Autowired
     private PieChart pieChart;
 
@@ -50,12 +51,12 @@ public class MainFrame extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         setExtendedState(MAXIMIZED_BOTH);
     }
-    
-    public void cmbAction(){
+
+    public void cmbAction() {
         cmbCountry.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
-                
+
             }
         });
     }
@@ -162,12 +163,12 @@ public class MainFrame extends javax.swing.JFrame {
     public JLabel getLblLastUpdate() {
         return lblLastUpdate;
     }
-    
-    public void setTypeCursor(Integer typeCursor){
+
+    public void setTypeCursor(Integer typeCursor) {
         this.setCursor(Cursor.getPredefinedCursor(typeCursor));
     }
-    
-    private void removeAllChart(){
+
+    private void removeAllChart() {
         pnlBarChart.removeAll();
         pnlBarChart.repaint();
         pnlPieChart.removeAll();
@@ -177,7 +178,7 @@ public class MainFrame extends javax.swing.JFrame {
     private class Worker extends SwingWorker<String, Void> {
 
         @Override
-        protected String doInBackground(){
+        protected String doInBackground() {
             try {
                 Thread.sleep(1000);
                 initTextComponent("Loading...");
@@ -186,7 +187,7 @@ public class MainFrame extends javax.swing.JFrame {
                 jPanel12.setBorder(javax.swing.BorderFactory.createTitledBorder(null,
                         cmbCountry.getSelectedItem().toString(),
                         javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 16), new java.awt.Color(255, 255, 255))); // NOI18N
-                
+
                 initBarChart();
                 initPieChart();
                 return "done";
@@ -194,7 +195,7 @@ public class MainFrame extends javax.swing.JFrame {
                 Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
                 setTypeCursor(Cursor.DEFAULT_CURSOR);
                 removeAllChart();
-                JOptionPane.showMessageDialog(rootPane, "Gagal mengambil data","Gagal", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(rootPane, "Gagal mengambil data", "Gagal", JOptionPane.ERROR_MESSAGE);
             } catch (InterruptedException ex) {
                 Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -204,8 +205,8 @@ public class MainFrame extends javax.swing.JFrame {
         @Override
         protected void done() {
             try {
-                if(get()!=null){
-                    log.debug("data update");
+                if (get() != null) {
+                    log.debug("data updated");
                     JOptionPane.showMessageDialog(rootPane, "Data Berhasil di update");
                     setTypeCursor(Cursor.DEFAULT_CURSOR);
                 }
@@ -573,11 +574,6 @@ public class MainFrame extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        pnlBarChart.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                pnlBarChartMouseClicked(evt);
-            }
-        });
         pnlBarChart.setLayout(new java.awt.BorderLayout());
 
         pnlPieChart.setLayout(new java.awt.BorderLayout());
@@ -624,11 +620,6 @@ public class MainFrame extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void pnlBarChartMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlBarChartMouseClicked
-        // TODO add your handling code here:
-        initBarChart();
-    }//GEN-LAST:event_pnlBarChartMouseClicked
 
     private void jPanel12MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel12MouseClicked
         initBarChart();
