@@ -6,17 +6,19 @@
 package com.agung.covid19.view;
 
 import com.agung.covid19.controller.MainController;
+import com.agung.covid19.util.MessageUtil;
 import java.awt.Cursor;
 import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.SwingWorker;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +31,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class MainFrame extends javax.swing.JFrame {
 
     @Autowired
-    private MainController baseController;
+    private MainController mainController;
 
     @Autowired
     private CaseBarChart caseBarChart;
@@ -52,33 +54,22 @@ public class MainFrame extends javax.swing.JFrame {
         setExtendedState(MAXIMIZED_BOTH);
     }
 
-    public void cmbAction() {
-        cmbCountry.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-
-            }
-        });
-    }
-
-    public void initCountryCombo() throws IOException {
-        countryMap = baseController.getCountries();
-        for (String countryName : countryMap.keySet()) {
-            cmbCountry.addItem(countryName);
+    public void initCountryCombo(){try {
+        //
+        mainController.loadToCombo();
+        } catch (IOException ex) {
+            MessageUtil.showMessage(null, "Periksa kembali koneksi", MessageUtil.ERROR_MESSAGE);
         }
-//        cmbCountry.setSelectedItem("Indonesia");
     }
 
     public void initData() {
         try {
-            initCountryCombo();
-            baseController.loadCaseByCountry(COUNTRY_CODE);
+            mainController.loadToCombo();
+            mainController.loadCaseByCountry(COUNTRY_CODE);
         } catch (IOException ex) {
             log.debug(ex.getMessage());
             JOptionPane.showMessageDialog(this, "Gagal Download Data, periksa koneksi kembali");
         }
-        initBarChart();
-        initPieChart();
     }
 
     private void initTextComponent(String label) {
@@ -91,33 +82,14 @@ public class MainFrame extends javax.swing.JFrame {
         lblGlobalConfirmed.setText(label);
         lblGlobalDeath.setText(label);
         lblGlobalRecovered.setText(label);
-//        lblLastUpdate.setText(label);
     }
 
-    private void initBarChart() {
-        if (baseController.getCountry() != null) {
-            caseBarChart.setConfirm(baseController.getCountry().getTotalConfirmed());
-            caseBarChart.setDeaths(baseController.getCountry().getTotalDeaths());
-            caseBarChart.setRecovered(baseController.getCountry().getTotalRecovered());
-            pnlBarChart.removeAll();
-            pnlBarChart.revalidate();
-            pnlBarChart.add(caseBarChart.generateChart());
-            pnlBarChart.updateUI();
-            pnlBarChart.repaint();
-        }
+    public JPanel getBarchartPanel(){
+        return pnlBarChart;
     }
 
-    private void initPieChart() {
-        if (baseController.getCountry() != null) {
-            pieChart.setConfirm(baseController.getCountry().getTotalConfirmed());
-            pieChart.setDeaths(baseController.getCountry().getTotalDeaths());
-            pieChart.setRecovered(baseController.getCountry().getTotalRecovered());
-            pnlPieChart.removeAll();
-            pnlPieChart.revalidate();
-            pnlPieChart.add(pieChart.generChartPanel());
-            pnlPieChart.updateUI();
-            pnlPieChart.repaint();
-        }
+    public JPanel getPieChartPanel(){
+        return pnlPieChart;
     }
 
     public JLabel getLblConfirmed() {
@@ -164,6 +136,10 @@ public class MainFrame extends javax.swing.JFrame {
         return lblLastUpdate;
     }
 
+    public JComboBox getCountryComboBox() {
+        return cmbCountry;
+    }
+
     public void setTypeCursor(Integer typeCursor) {
         this.setCursor(Cursor.getPredefinedCursor(typeCursor));
     }
@@ -183,13 +159,10 @@ public class MainFrame extends javax.swing.JFrame {
                 Thread.sleep(1000);
                 initTextComponent("Loading...");
                 setTypeCursor(Cursor.WAIT_CURSOR);
-                baseController.loadCaseByCountry(countryMap.get(cmbCountry.getSelectedItem().toString()));
+                mainController.loadCaseByCountry(mainController.getMapCountries().get(cmbCountry.getSelectedItem().toString()));
                 jPanel12.setBorder(javax.swing.BorderFactory.createTitledBorder(null,
                         cmbCountry.getSelectedItem().toString(),
                         javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 16), new java.awt.Color(255, 255, 255))); // NOI18N
-
-                initBarChart();
-                initPieChart();
                 return "done";
             } catch (IOException ex) {
                 Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
@@ -622,7 +595,6 @@ public class MainFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jPanel12MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel12MouseClicked
-        initBarChart();
     }//GEN-LAST:event_jPanel12MouseClicked
 
     private void cmbCountryItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbCountryItemStateChanged

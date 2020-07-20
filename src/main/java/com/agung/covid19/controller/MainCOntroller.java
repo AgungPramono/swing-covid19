@@ -9,15 +9,18 @@ import com.agung.covid19.api.service.BaseService;
 import com.agung.covid19.pojo.Countries;
 import com.agung.covid19.pojo.Country;
 import com.agung.covid19.pojo.Summary;
-import com.agung.covid19.view.MainFrame;
 import com.agung.covid19.util.TextUtil;
+import com.agung.covid19.view.CaseBarChart;
+import com.agung.covid19.view.MainFrame;
+import com.agung.covid19.view.PieChart;
+
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import java.util.Map;
 
 /**
  *
@@ -36,6 +39,12 @@ public class MainController {
     @Setter
     private Country country;
 
+    @Autowired
+    private CaseBarChart caseBarChart;
+
+    @Autowired
+    private PieChart pieChart;
+
     public void loadCaseByCountry(String countryName) throws IOException {
         Summary summary = baseService.getAllSummary().body();
         loadGlobalCase(summary.getGlobal());
@@ -50,10 +59,35 @@ public class MainController {
                     mainFrame.getLblNewRecovered().setText(TextUtil.formatDecimal(country.getNewRecovered()));
                     mainFrame.getLblLastUpdate().setText(TextUtil.formatDate(country.getDate()));
                     setCountry(country);
+                    fillChart(country);
+
                 }
                 return;
             }
         }
+    }
+
+    private void fillChart(Country country){
+        if (country != null) {
+            caseBarChart.setConfirm(country.getTotalConfirmed());
+            caseBarChart.setDeaths(country.getTotalDeaths());
+            caseBarChart.setRecovered(country.getTotalRecovered());
+            mainFrame.getBarchartPanel().removeAll();
+            mainFrame.getBarchartPanel().revalidate();
+            mainFrame.getBarchartPanel().add(caseBarChart.generateChart());
+            mainFrame.getBarchartPanel().updateUI();
+            mainFrame.getBarchartPanel().repaint();
+
+            pieChart.setConfirm(country.getTotalConfirmed());
+            pieChart.setDeaths(country.getTotalDeaths());
+            pieChart.setRecovered(country.getTotalRecovered());
+            mainFrame.getPieChartPanel().removeAll();
+            mainFrame.getPieChartPanel().revalidate();
+            mainFrame.getPieChartPanel().add(pieChart.generChartPanel());
+            mainFrame.getPieChartPanel().updateUI();
+            mainFrame.getPieChartPanel().repaint();
+        }
+
     }
 
     private void loadGlobalCase(com.agung.covid19.pojo.Global global) {
@@ -64,15 +98,20 @@ public class MainController {
 
         }
     }
+    
+    @Getter
+    private Map<String,String> mapCountries;
 
-    public Map<String,String> getCountries() throws IOException {
-        Map<String,String> mapCountries = new HashMap<>();
-        Countries[] countries = baseService.getAllCountries().body();
+    public void loadToCombo() throws IOException {
+        mapCountries = new HashMap<>();
+        Countries[] countries = baseService.getAllCountries();
         for(Countries c:countries){
             mapCountries.put(c.getCountry(), c.getISO2());
         }
         
-        return mapCountries;
+        for (String countryName : mapCountries.keySet()) {
+            mainFrame.getCountryComboBox().addItem(countryName);
+        }
     }
 
 }

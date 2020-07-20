@@ -5,6 +5,7 @@
  */
 package com.agung.covid19.config;
 
+import com.agung.covid19.api.ApiProvider;
 import com.agung.covid19.api.service.BaseService;
 import com.agung.covid19.controller.MainController;
 import com.agung.covid19.view.MainFrame;
@@ -20,6 +21,11 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @ComponentScan(basePackages = {"com.agung.covid19"})
 public class AppConfig {
+    
+    @Bean
+    public ApiProvider apiProvider(){
+        return new ApiProvider();
+    }
     
     
     @Bean

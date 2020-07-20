@@ -33,7 +33,7 @@ public class Main {
         mainFrame.initCountryCombo();
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args){
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {

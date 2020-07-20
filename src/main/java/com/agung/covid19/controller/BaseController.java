@@ -12,7 +12,6 @@ import com.agung.covid19.model.Country;
 import com.agung.covid19.model.Global;
 import com.agung.covid19.view.MainFrame;
 import com.agung.covid19.util.TextUtil;
-import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;

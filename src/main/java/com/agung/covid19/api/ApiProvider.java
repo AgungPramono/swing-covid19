@@ -14,16 +14,16 @@ import retrofit2.converter.jackson.JacksonConverterFactory;
  *
  * @author agung
  */
-public class Covid19ApiProvider2 implements ApiConstan{
-    private static Covid19ApiProvider2 singleton;
+public class ApiProvider implements ApiConstan{
+    private static ApiProvider singleton;
     private Retrofit retrofit;
 
-    public Covid19ApiProvider2(){
+    public ApiProvider(){
         init();
     }
-    public static synchronized Covid19ApiProvider2 getInstance() {
+    public static synchronized ApiProvider getInstance() {
         if (singleton == null) {
-            singleton = new Covid19ApiProvider2();
+            singleton = new ApiProvider();
         }
 
         return singleton;
