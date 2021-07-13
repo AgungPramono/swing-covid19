@@ -1,0 +1,3 @@
+## DEMO PENGGUNAAN LIBRARY RETROFIT DI APLIKASI DESKTOP ##
+
+Pattern : Model View Controller (MVC)
