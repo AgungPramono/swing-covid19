@@ -16,6 +16,8 @@ import lombok.Data;
 @Data
 public class Country {
 
+    @JsonProperty("ID")
+    private String id;
     @JsonProperty("Country")
     private String Country;
     @JsonProperty("CountryCode")

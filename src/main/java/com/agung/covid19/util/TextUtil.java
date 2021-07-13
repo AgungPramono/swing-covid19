@@ -16,7 +16,8 @@ import java.util.Locale;
  */
 public class TextUtil {
 
-    static DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'", new Locale("ID"));
+    //yyyy-MM-dd'T'HH:mm:ss'Z
+    static DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSX", new Locale("ID"));
     static DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy HH:mm:ss", new Locale("ID"));
     static DecimalFormat format = new DecimalFormat("#,###,##0");
 

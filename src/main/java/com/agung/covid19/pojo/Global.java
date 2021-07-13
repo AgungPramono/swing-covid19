@@ -27,4 +27,7 @@ public class Global {
     private Long NewRecovered;
     @JsonProperty("TotalRecovered")
     private Long TotalRecovered;
+
+    @JsonProperty("Date")
+    private String Date;
 }

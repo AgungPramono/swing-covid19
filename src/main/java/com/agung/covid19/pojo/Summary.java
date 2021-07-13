@@ -18,13 +18,17 @@ import lombok.Data;
 
 @Data
 public class Summary {
-    
+
+    @JsonProperty("ID")
+    private String id;
     @JsonProperty("Global")
     private Global global;
     @JsonProperty("Countries")
     private List<Country> Countries = new ArrayList<>();
     @JsonProperty("Date")
     private String Date;
+    @JsonProperty("Message")
+    private String message;
     
     
 }
