@@ -17,9 +17,9 @@ import java.util.Locale;
 public class TextUtil {
 
     //yyyy-MM-dd'T'HH:mm:ss'Z
-    static DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSX", new Locale("ID"));
-    static DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy HH:mm:ss", new Locale("ID"));
-    static DecimalFormat format = new DecimalFormat("#,###,##0");
+    private static DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSX", new Locale("ID"));
+    private static DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy HH:mm:ss", new Locale("ID"));
+    private static DecimalFormat format = new DecimalFormat("#,###,##0");
 
     public static String formatDate(String date) {
         LocalDateTime localDate = LocalDateTime.parse(date, inputFormatter);

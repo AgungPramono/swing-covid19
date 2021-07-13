@@ -82,6 +82,7 @@ public class MainFrame extends javax.swing.JFrame {
         lblGlobalConfirmed.setText(label);
         lblGlobalDeath.setText(label);
         lblGlobalRecovered.setText(label);
+        lblLastUpdate.setText("");
     }
 
     public JPanel getBarchartPanel(){
