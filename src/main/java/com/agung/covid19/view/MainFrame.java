@@ -65,7 +65,7 @@ public class MainFrame extends javax.swing.JFrame {
     public void initData() {
         try {
             mainController.loadToCombo();
-            mainController.loadCaseByCountry(COUNTRY_CODE);
+            mainController.fetchCaseByCountryCode(COUNTRY_CODE);
         } catch (IOException ex) {
             log.debug(ex.getMessage());
             JOptionPane.showMessageDialog(this, "Gagal Download Data, periksa koneksi kembali");
@@ -160,7 +160,7 @@ public class MainFrame extends javax.swing.JFrame {
                 Thread.sleep(1000);
                 initTextComponent("Loading...");
                 setTypeCursor(Cursor.WAIT_CURSOR);
-                mainController.loadCaseByCountry(mainController.getMapCountries().get(cmbCountry.getSelectedItem().toString()));
+                mainController.fetchCaseByCountryCode(mainController.getMapCountries().get(cmbCountry.getSelectedItem().toString()));
                 jPanel12.setBorder(javax.swing.BorderFactory.createTitledBorder(null,
                         cmbCountry.getSelectedItem().toString(),
                         javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 16), new java.awt.Color(255, 255, 255))); // NOI18N

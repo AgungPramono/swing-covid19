@@ -45,7 +45,7 @@ public class MainController {
     @Autowired
     private PieChart pieChart;
 
-    public void loadCaseByCountry(String countryName) throws IOException {
+    public void fetchCaseByCountryCode(String countryName) throws IOException {
         Summary summary = baseService.getAllSummary().body();
         fillGlobalView(summary.getGlobal());
         for (Country country : summary.getCountries()) {
