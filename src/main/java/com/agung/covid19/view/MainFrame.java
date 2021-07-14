@@ -193,7 +193,9 @@ public class MainFrame extends javax.swing.JFrame {
     }
 
     public void runWorker() {
-        worker = new Worker();
+        if (worker == null){
+            worker = new Worker();
+        }
         worker.execute();
     }
 
