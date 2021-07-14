@@ -17,13 +17,13 @@ import com.agung.covid19.view.PieChart;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
- *
  * @author agung
  */
 @Slf4j
@@ -47,27 +47,39 @@ public class MainController {
 
     public void loadCaseByCountry(String countryName) throws IOException {
         Summary summary = baseService.getAllSummary().body();
-        loadGlobalCase(summary.getGlobal());
+        fillGlobalView(summary.getGlobal());
         for (Country country : summary.getCountries()) {
             if (country.getCountryCode().equals(countryName)) {
-                if (country != null) {
-                    mainFrame.getLblConfirmed().setText(TextUtil.formatDecimal(country.getTotalConfirmed()));
-                    mainFrame.getLblNewConfirmed().setText("+" + TextUtil.formatDecimal(country.getNewConfirmed()));
-                    mainFrame.getLblDeath().setText(TextUtil.formatDecimal(country.getTotalDeaths()));
-                    mainFrame.getLblNewDeath().setText(TextUtil.formatDecimal(country.getNewDeaths()));
-                    mainFrame.getLblRecovered().setText(TextUtil.formatDecimal(country.getTotalRecovered()));
-                    mainFrame.getLblNewRecovered().setText(TextUtil.formatDecimal(country.getNewRecovered()));
-                    mainFrame.getLblLastUpdate().setText(TextUtil.formatDate(country.getDate()));
-                    setCountry(country);
-                    fillChart(country);
-
-                }
+                fillCountryView(country);
                 return;
             }
         }
     }
 
-    private void fillChart(Country country){
+    private void fillCountryView(Country country) {
+        if (country != null) {
+            mainFrame.getLblConfirmed().setText(TextUtil.formatDecimal(country.getTotalConfirmed()));
+            mainFrame.getLblNewConfirmed().setText("+" + TextUtil.formatDecimal(country.getNewConfirmed()));
+            mainFrame.getLblDeath().setText(TextUtil.formatDecimal(country.getTotalDeaths()));
+            mainFrame.getLblNewDeath().setText(TextUtil.formatDecimal(country.getNewDeaths()));
+            mainFrame.getLblRecovered().setText(TextUtil.formatDecimal(country.getTotalRecovered()));
+            mainFrame.getLblNewRecovered().setText(TextUtil.formatDecimal(country.getNewRecovered()));
+            mainFrame.getLblLastUpdate().setText(TextUtil.formatDate(country.getDate()));
+            setCountry(country);
+            fillChart(country);
+        }
+    }
+
+    private void fillGlobalView(com.agung.covid19.pojo.Global global) {
+        if (global != null) {
+            mainFrame.getLblGlobalConfirmed().setText(TextUtil.formatDecimal(global.getTotalConfirmed()));
+            mainFrame.getLblGlobalDeath().setText(TextUtil.formatDecimal(global.getTotalDeaths()));
+            mainFrame.getLblGlobalRecovered().setText(TextUtil.formatDecimal(global.getTotalRecovered()));
+
+        }
+    }
+
+    private void fillChart(Country country) {
         if (country != null) {
             caseBarChart.setConfirm(country.getTotalConfirmed());
             caseBarChart.setDeaths(country.getTotalDeaths());
@@ -90,25 +102,16 @@ public class MainController {
 
     }
 
-    private void loadGlobalCase(com.agung.covid19.pojo.Global global) {
-        if (global != null) {
-            mainFrame.getLblGlobalConfirmed().setText(TextUtil.formatDecimal(global.getTotalConfirmed()));
-            mainFrame.getLblGlobalDeath().setText(TextUtil.formatDecimal(global.getTotalDeaths()));
-            mainFrame.getLblGlobalRecovered().setText(TextUtil.formatDecimal(global.getTotalRecovered()));
-
-        }
-    }
-    
     @Getter
-    private Map<String,String> mapCountries;
+    private Map<String, String> mapCountries;
 
     public void loadToCombo() throws IOException {
         mapCountries = new HashMap<>();
         Countries[] countries = baseService.getAllCountries();
-        for(Countries c:countries){
+        for (Countries c : countries) {
             mapCountries.put(c.getCountry(), c.getISO2());
         }
-        
+
         for (String countryName : mapCountries.keySet()) {
             mainFrame.getCountryComboBox().addItem(countryName);
         }
