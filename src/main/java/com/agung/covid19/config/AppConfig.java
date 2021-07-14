@@ -15,6 +15,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
  *
@@ -25,6 +26,7 @@ import org.springframework.context.annotation.PropertySource;
 @Configuration
 @ComponentScan(basePackages = {"com.agung.covid19"})
 @PropertySource("classpath:appconfig.properties")
+@EnableScheduling
 public class AppConfig {
     
     @Value("${client.id}")

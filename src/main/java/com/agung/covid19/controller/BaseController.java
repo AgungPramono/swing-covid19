@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -27,12 +28,9 @@ import retrofit2.Response;
 public class BaseController {
 
     public static final org.slf4j.Logger log = LoggerFactory.getLogger(BaseController.class);
+
+    @Autowired
     private MainFrame mainFrame; 
-    
-    
-    public BaseController(MainFrame mainFrame) {
-        this.mainFrame = mainFrame;
-    }
 
     public void loadGlobalCase() {
         GlobalApiService globalApiService = Covid19ApiProvider.getInstance().createService(GlobalApiService.class);

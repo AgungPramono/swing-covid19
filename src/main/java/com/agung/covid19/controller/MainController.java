@@ -9,6 +9,7 @@ import com.agung.covid19.api.service.BaseService;
 import com.agung.covid19.pojo.Countries;
 import com.agung.covid19.pojo.Country;
 import com.agung.covid19.pojo.Summary;
+import com.agung.covid19.util.NetworkUtil;
 import com.agung.covid19.util.TextUtil;
 import com.agung.covid19.view.CaseBarChart;
 import com.agung.covid19.view.MainFrame;
@@ -22,6 +23,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 
 /**
  * @author agung
@@ -103,10 +105,10 @@ public class MainController {
     }
 
     @Getter
-    private Map<String, String> mapCountries;
+    private Map<String, String> mapCountries = new HashMap<>();
 
     public void loadToCombo() throws IOException {
-        mapCountries = new HashMap<>();
+        mapCountries.clear();
         Countries[] countries = baseService.getAllCountries();
         for (Countries c : countries) {
             mapCountries.put(c.getCountry(), c.getISO2());
@@ -117,4 +119,12 @@ public class MainController {
         }
     }
 
+    @Scheduled(fixedDelay = 1000*60)
+    public void checkConnectionRealtime() {
+        log.debug("Running Realtime Update");
+//        if (NetworkUtil.isNetwokConnected()){
+        //                loadToCombo();
+        mainFrame.runWorker(false);
+        //        }
+    }
 }

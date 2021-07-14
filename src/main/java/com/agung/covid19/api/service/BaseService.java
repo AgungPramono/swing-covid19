@@ -25,7 +25,7 @@ public class BaseService {
     private ApiProvider apiProvider;
     
     public Response<Summary> getAllSummary() throws IOException {
-        SummaryAPI summaryService = apiProvider.createService(SummaryAPI.class);
+        SummaryService summaryService = apiProvider.createService(SummaryService.class);
         Call<Summary> summaryCall = summaryService.getSummary();
         try {
             Response<Summary> response = summaryCall.execute();
@@ -41,7 +41,7 @@ public class BaseService {
     
     
     public Countries[] getAllCountries() throws IOException {
-        SummaryAPI summaryService = apiProvider.createService(SummaryAPI.class);
+        SummaryService summaryService = apiProvider.createService(SummaryService.class);
         Call<Countries[]> summaryCall = summaryService.getCountries();
         try {
             Response<Countries[]> response = summaryCall.execute();

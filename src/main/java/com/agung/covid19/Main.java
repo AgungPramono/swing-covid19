@@ -12,6 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
  *
@@ -31,6 +32,7 @@ public class Main {
         initContext();
         mainFrame.setVisible(true);
         mainFrame.initCountryCombo();
+        mainFrame.initDataIndonesia();
     }
 
     public static void main(String[] args){

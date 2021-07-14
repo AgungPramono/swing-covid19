@@ -14,7 +14,7 @@ import retrofit2.http.GET;
  *
  * @author agung
  */
-public interface SummaryAPI {
+public interface SummaryService {
     
     @GET("summary")
     Call<Summary> getSummary();
