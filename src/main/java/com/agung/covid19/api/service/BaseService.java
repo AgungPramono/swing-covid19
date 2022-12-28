@@ -10,16 +10,16 @@ import com.agung.covid19.api.callback.CountryCallback;
 import com.agung.covid19.api.callback.SummaryCallback;
 import com.agung.covid19.pojo.Countries;
 import com.agung.covid19.pojo.Summary;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *

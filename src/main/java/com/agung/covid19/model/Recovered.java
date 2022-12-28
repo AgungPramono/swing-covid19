@@ -6,9 +6,6 @@
 package com.agung.covid19.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 /**
  *

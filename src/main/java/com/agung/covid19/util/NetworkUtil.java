@@ -1,7 +1,10 @@
 package com.agung.covid19.util;
 
 import java.io.IOException;
-import java.net.*;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.UnknownHostException;
 
 public class NetworkUtil {
 

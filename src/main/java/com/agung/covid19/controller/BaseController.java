@@ -6,21 +6,9 @@
 package com.agung.covid19.controller;
 
 import com.agung.covid19.api.ApiProvider;
-import com.agung.covid19.api.service.CountriesServices;
-import com.agung.covid19.api.Covid19ApiProvider;
-import com.agung.covid19.api.service.GlobalApiService;
 import com.agung.covid19.api.service.SummaryService;
-import com.agung.covid19.model.Country;
-import com.agung.covid19.model.Global;
 import com.agung.covid19.pojo.Summary;
-import com.agung.covid19.view.MainFrame;
-import com.agung.covid19.util.TextUtil;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Locale;
-
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -47,9 +35,9 @@ public class BaseController {
             }
 
             @Override
-            public void onFailure(Call<Summary> call, Throwable thrwbl) {
-                log.error("gagal mengambil data {}", thrwbl.getMessage());
-                thrwbl.printStackTrace();
+            public void onFailure(Call<Summary> call, Throwable throwable) {
+                log.error("gagal mengambil data {}", throwable.getMessage());
+                throwable.printStackTrace();
             }
         }
         );
@@ -72,9 +60,9 @@ public class BaseController {
             }
 
             @Override
-            public void onFailure(Call<Summary> call, Throwable thrwbl) {
-                log.error(thrwbl.getMessage());
-                thrwbl.printStackTrace();
+            public void onFailure(Call<Summary> call, Throwable throwable) {
+                log.error(throwable.getMessage());
+                throwable.printStackTrace();
             }
         });
     }

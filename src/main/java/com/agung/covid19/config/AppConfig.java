@@ -10,7 +10,6 @@ import com.agung.covid19.api.ApiProvinceProvider;
 import com.agung.covid19.api.service.BaseService;
 import com.agung.covid19.api.service.ProvinceService;
 import com.agung.covid19.controller.MainController;
-import com.agung.covid19.controller.ViewHelper;
 import com.agung.covid19.view.MainFrame;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;

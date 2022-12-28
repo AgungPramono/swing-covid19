@@ -5,35 +5,21 @@
  */
 package com.agung.covid19.view;
 
-import com.agung.covid19.api.FailedConnectionException;
 import com.agung.covid19.controller.MainController;
 import com.agung.covid19.util.MessageConstan;
 import com.agung.covid19.util.MessageUtil;
-
-import java.awt.Cursor;
-import java.awt.event.ItemEvent;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.ExecutionException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.mail.Message;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.SwingWorker;
-
-import com.agung.covid19.util.NetworkUtil;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ItemEvent;
+import java.io.IOException;
+import java.util.concurrent.ExecutionException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author agung

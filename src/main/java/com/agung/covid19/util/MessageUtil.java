@@ -5,8 +5,7 @@
  */
 package com.agung.covid19.util;
 
-import javax.swing.JComponent;
-import javax.swing.JOptionPane;
+import javax.swing.*;
 
 /**
  *

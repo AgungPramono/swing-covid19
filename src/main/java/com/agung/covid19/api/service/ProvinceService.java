@@ -5,8 +5,6 @@ import com.agung.covid19.api.callback.ProvinceCallback;
 import com.agung.covid19.model.dto.ProvinceDto;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import retrofit2.Call;
 import retrofit2.Callback;

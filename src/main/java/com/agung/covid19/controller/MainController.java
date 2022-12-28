@@ -5,8 +5,6 @@
  */
 package com.agung.covid19.controller;
 
-import com.agung.covid19.api.FailedConnectionException;
-import com.agung.covid19.api.callback.CountryCallback;
 import com.agung.covid19.api.callback.ProvinceCallback;
 import com.agung.covid19.api.callback.SummaryCallback;
 import com.agung.covid19.api.service.BaseService;
@@ -18,16 +16,15 @@ import com.agung.covid19.pojo.Summary;
 import com.agung.covid19.util.MessageConstan;
 import com.agung.covid19.util.MessageUtil;
 import com.agung.covid19.view.MainFrame;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import lombok.Getter;
-import lombok.Setter;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * @author agung

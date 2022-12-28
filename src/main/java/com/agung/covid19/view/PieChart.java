@@ -6,12 +6,6 @@
 package com.agung.covid19.view;
 
 import com.agung.covid19.util.TextUtil;
-import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import javax.swing.Timer;
 import lombok.Getter;
 import lombok.Setter;
 import org.jfree.chart.ChartFactory;
@@ -24,6 +18,12 @@ import org.jfree.chart.plot.PiePlot3D;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
 import org.springframework.stereotype.Component;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.NumberFormat;
 
 /**
  *

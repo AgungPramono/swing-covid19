@@ -5,7 +5,6 @@
  */
 package com.agung.covid19.view;
 
-import java.awt.Color;
 import lombok.Getter;
 import lombok.Setter;
 import org.jfree.chart.ChartFactory;
@@ -23,8 +22,9 @@ import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.chart.renderer.category.StandardBarPainter;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
-import org.jfree.ui.TextAnchor;
 import org.springframework.stereotype.Component;
+
+import java.awt.*;
 
 /**
  *

@@ -5,7 +5,6 @@
  */
 package com.agung.covid19.model;
 
-import java.time.LocalDateTime;
 import lombok.Data;
 
 /**
