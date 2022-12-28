@@ -32,7 +32,7 @@ public class Main {
         initContext();
         mainFrame.setVisible(true);
         mainFrame.initCountryCombo();
-        mainFrame.initDataIndonesia();
+//        mainFrame.initDataIndonesia();
     }
 
     public static void main(String[] args){

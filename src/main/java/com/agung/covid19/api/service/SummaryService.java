@@ -10,6 +10,8 @@ import com.agung.covid19.pojo.Summary;
 import retrofit2.Call;
 import retrofit2.http.GET;
 
+import java.util.List;
+
 /**
  *
  * @author agung
@@ -19,6 +21,6 @@ public interface SummaryService {
     @GET("summary")
     Call<Summary> getSummary();
     @GET("countries")
-    Call<Countries[]> getCountries();
+    Call<List<Countries>> getCountries();
     
 }

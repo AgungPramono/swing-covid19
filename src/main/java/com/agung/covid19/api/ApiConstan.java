@@ -14,7 +14,8 @@ public interface ApiConstan {
     static final String BASE_API = "https://covid19.mathdro.id/";
     static final String COVID_ID = "https://covid19.mathdro.id/api/countries/indonesia";
     static final String COVID_GLOBAL = "";
-    
+    static final String BASE_API_KAWAL_CORONA = "https://api.kawalcorona.com/";
+
     static final String BASE_COVID19_API = "https://api.covid19api.com/";
     
     static final String CONFIRMED = "confirmed";

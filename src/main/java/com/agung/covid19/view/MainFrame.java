@@ -5,6 +5,7 @@
  */
 package com.agung.covid19.view;
 
+import com.agung.covid19.api.FailedConnectionException;
 import com.agung.covid19.controller.MainController;
 import com.agung.covid19.util.MessageConstan;
 import com.agung.covid19.util.MessageUtil;
@@ -66,7 +67,9 @@ public class MainFrame extends javax.swing.JFrame {
         try {
             mainController.loadToCombo();
         } catch (IOException ex) {
-            MessageUtil.showMessage(null, MessageConstan.CONNECTION_FAILED, MessageUtil.ERROR_MESSAGE);
+            removeAllChart();
+            setTypeCursor(Cursor.DEFAULT_CURSOR);
+            MessageUtil.showMessage(rootPane, MessageConstan.CONNECTION_FAILED, MessageUtil.ERROR_MESSAGE);
         }
     }
 
@@ -75,9 +78,10 @@ public class MainFrame extends javax.swing.JFrame {
             mainController.loadToCombo();
             cmbCountry.setSelectedItem("Indonesia");
             mainController.fetchCaseByCountryCode(DEFAULT_COUNTRY_CODE);
-        } catch (IOException ex) {
-            log.debug(ex.getMessage());
-            MessageUtil.showMessage(rootPane, MessageConstan.CONNECTION_FAILED,MessageUtil.ERROR_MESSAGE);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -169,40 +173,29 @@ public class MainFrame extends javax.swing.JFrame {
 
         @Override
         protected String doInBackground() {
-            try {
-                Thread.sleep(1000);
-                initTextComponent("Loading...");
-                log.debug("process request data......");
-                setTypeCursor(Cursor.WAIT_CURSOR);
-                mainController.fetchCaseByCountryCode(mainController.getMapCountries().get(cmbCountry.getSelectedItem().toString()));
-                jPanel12.setBorder(javax.swing.BorderFactory.createTitledBorder(null,
-                        cmbCountry.getSelectedItem().toString(),
-                        javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 16), new java.awt.Color(255, 255, 255))); // NOI18N
-                return "done";
-            } catch (IOException ex) {
-                setTypeCursor(Cursor.DEFAULT_CURSOR);
-                removeAllChart();
-                log.debug("data request failed......");
-                MessageUtil.showMessage(rootPane, MessageConstan.CONNECTION_FAILED, MessageUtil.ERROR_MESSAGE);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            return null;
+            initTextComponent("Loading...");
+            log.debug("process request data......");
+//            setTypeCursor(Cursor.WAIT_CURSOR);
+            mainController.fetchCaseByCountryCode(mainController.getMapCountries().get(cmbCountry.getSelectedItem().toString()));
+//                mainController.fetchAllProvinceData();
+            jPanel12.setBorder(javax.swing.BorderFactory.createTitledBorder(null,
+                    cmbCountry.getSelectedItem().toString(),
+                    javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 16), new java.awt.Color(255, 255, 255))); // NOI18N
+            return "done";
         }
 
         @Override
         protected void done() {
             try {
-                if (get() != null) {
+                if (get().equals("done")) {
                     log.debug("data updated");
-                    if (showSuccesMessage) {
-                        MessageUtil.showMessage(rootPane,MessageConstan.CONNECTION_SUCCES, MessageUtil.INFO_MESSAGE);
-                    }
+////                    if (showSuccesMessage) {
+//                        MessageUtil.showMessage(rootPane,MessageConstan.CONNECTION_SUCCES, MessageUtil.INFO_MESSAGE);
+////                    }
                     setTypeCursor(Cursor.DEFAULT_CURSOR);
                 }
-            } catch (InterruptedException ex) {
-                Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (ExecutionException ex) {
+            } catch (InterruptedException | ExecutionException ex) {
+                removeAllChart();
                 Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -210,7 +203,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     public void runWorker(Boolean message) {
         worker = new Worker();
-        setShowSuccesMessage(message);
+//        setShowSuccesMessage(message);
         worker.execute();
     }
 

@@ -6,8 +6,11 @@
 package com.agung.covid19.config;
 
 import com.agung.covid19.api.ApiProvider;
+import com.agung.covid19.api.ApiProvinceProvider;
 import com.agung.covid19.api.service.BaseService;
+import com.agung.covid19.api.service.ProvinceService;
 import com.agung.covid19.controller.MainController;
+import com.agung.covid19.controller.ViewHelper;
 import com.agung.covid19.view.MainFrame;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -36,21 +39,30 @@ public class AppConfig {
     public ApiProvider apiProvider(){
         return new ApiProvider();
     }
-    
+
+    @Bean
+    public ApiProvinceProvider apiProvinceProvider(){
+        return new ApiProvinceProvider();
+    }
+
     @Bean
     public MainFrame mainFrame(){
-        log.debug("client id {}",clientId);
         return new MainFrame();
     }
-    
+
     @Bean
     public MainController controller(){
         return new MainController();
     }
-    
+
     @Bean
     public BaseService baseService(){
         return new BaseService();
     }
-    
+
+    @Bean
+    public ProvinceService provinceService(){
+        return new ProvinceService();
+    }
+
 }

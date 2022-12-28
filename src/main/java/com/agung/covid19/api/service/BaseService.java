@@ -6,12 +6,19 @@
 package com.agung.covid19.api.service;
 
 import com.agung.covid19.api.ApiProvider;
+import com.agung.covid19.api.callback.CountryCallback;
+import com.agung.covid19.api.callback.SummaryCallback;
 import com.agung.covid19.pojo.Countries;
 import com.agung.covid19.pojo.Summary;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
@@ -20,38 +27,52 @@ import retrofit2.Response;
  */
 @Slf4j
 public class BaseService {
-    
+
     @Autowired
     private ApiProvider apiProvider;
-    
-    public Response<Summary> getAllSummary() throws IOException {
+
+    public void getAllSummary(SummaryCallback summaryCallback) {
         SummaryService summaryService = apiProvider.createService(SummaryService.class);
         Call<Summary> summaryCall = summaryService.getSummary();
-        try {
-            Response<Summary> response = summaryCall.execute();
-            if(response.code() == 200){
-                return response;
+        summaryCall.enqueue(new Callback<Summary>() {
+            @Override
+            public void onResponse(Call<Summary> call, Response<Summary> response) {
+                if (response.code() == 200) {
+                    summaryCallback.onSuccess(response.body());
+                }
             }
-        } catch (IOException ex) {
-            log.error("Gagal mengambil data {}", ex.getMessage());
-            throw new IOException(ex);
-        }
-        return null;
+
+            @SneakyThrows
+            @Override
+            public void onFailure(Call<Summary> call, Throwable t) {
+                summaryCallback.onError(t);
+            }
+        });
+//        try {
+//            Response<Summary> response = summaryCall.execute();
+//            if(response.code() == 200){
+//                return response;
+//            }
+//        } catch (IOException ex) {
+//            log.error("Gagal mengambil data {}", ex.getMessage());
+//            throw new IOException(ex);
+//        }
+//        return null;
     }
-    
-    
-    public Countries[] getAllCountries() throws IOException {
+
+
+    public List<Countries> getAllCountries(CountryCallback countryCallback) throws IOException {
         SummaryService summaryService = apiProvider.createService(SummaryService.class);
-        Call<Countries[]> summaryCall = summaryService.getCountries();
+        Call<List<Countries>> countryCall = summaryService.getCountries();
         try {
-            Response<Countries[]> response = summaryCall.execute();
-            if(response.code() == 200){
+            Response<List<Countries>> response = countryCall.execute();
+            if (response.code() == 200) {
                 return response.body();
             }
         } catch (IOException ex) {
             log.error("Gagal mengambil data {}", ex.getMessage());
             throw new IOException(ex);
         }
-        return null;
+        return new ArrayList<>();
     }
 }
